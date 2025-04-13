@@ -396,12 +396,11 @@
                     body: JSON.stringify({ content: `📦 Réapprovisionnement par ${restocker}\n🕒 ${heure}\n\n${selectedProducts.join('\n')}` })
                 });
         
-                alert("Les produits ont bien été envoyés !");
-                document.querySelectorAll('.restock-input').forEach(input => input.value = "");
-                document.getElementById('restocker').value = "";
+                notification.textContent = "Les produits ont bien été envoyés !";
+                notification.style.display = "block"
             } catch (err) {
-                alert("Erreur lors de l'envoi.");
-                console.error(err);
+                notification.textContent = "Erreur lors de l'envoi.";
+                notification.style.display = "block"
             }
         }
 
