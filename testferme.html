@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferme Biogood - Réapprovisionnement</title>
+    <style>
+        /* Palette de couleurs élégantes avec des dégradés */
+        :root {
+            --primary-color: #2f2f2f; /* Noir élégant */
+            --secondary-color: #bfa15f; /* Or doux */
+            --background-color: #f5f5f5; /* Gris clair */
+            --highlight-color: #8a6e4f; /* Marron doux */
+            --button-hover-color: #7f5e35; /* Marron plus sombre */
+            --text-color: #333;
+            --beige-color: #f5e1b7; /* Beige clair */
+            --brown-color: #7d5a3c; /* Brun moyen */
+            --gradient-primary: linear-gradient(135deg, #f5e1b7, #bfa15f); /* Dégradé beige/or */
+            --gradient-secondary: linear-gradient(135deg, #7d5a3c, #8a6e4f); /* Dégradé brun/marron */
+            --button-gradient: linear-gradient(135deg, #7d5a3c, #bfa15f); /* Dégradé du bouton */
+        }
+
+        /* Fond d'écran personnalisé */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif;
+            background-image: url('https://files.catbox.moe/i12z80.png');
+            background-size: cover;
+            background-position: center;
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        /* Container principal */
+        .main-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 30px auto;
+            background: rgba(245, 225, 183, 0.65); /* beige clair avec 85% d’opacité */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* En-tête */
+        header {
+            margin-bottom: 30px;
+        }
+
+        header img {
+            width: 150px;
+            margin-bottom: 20px;
+            object-fit: contain;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            color: var(--brown-color); /* Brun pour le titre */
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        /* Section des produits */
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .product {
+            width: 250px;
+            background: var(--gradient-secondary); /* Dégradé brun/marron pour les produits */
+            padding: 20px;
+            margin: 15px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .product img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .product h3 {
+            font-size: 1.5rem;
+            color: #423019;
+            margin-bottom: 45px; /* Augmenté (au lieu de 10px) */
+        }
+
+
+        .restock-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #d7ccc8;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1.2rem; /* Taille du texte augmentée */
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        .cta-button {
+            background: var(--button-gradient); /* Dégradé pour le bouton */
+            color: white;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: var(--button-hover-color); /* Couleur plus sombre au survol */
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: var(--highlight-color);
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--brown-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .product {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .products {
+                flex-direction: column;
+            }
+        }
+        .restocker-name {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .restocker-name label {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--brown-color);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .restocker-name select {
+            width: 50%;
+            padding: 8px 10px;
+            font-size: 0.95rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            background-color: white;
+        }
+
+        .notification {
+            color: red;  /* Change la couleur du texte en rouge */
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: block; /* Par défaut, tu peux choisir de la masquer */
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="main-container fade-in">
+        <header>
+            <img src="https://files.catbox.moe/0kvf7v.png" alt="Logo Ferme Biogood">
+            <h1>Ferme Biogood - Réapprovisionnement</h1>
+        </header>
+    <div class="restocker-name">
+        <label for="restocker">Réapprovisionneur :</label>
+        <select id="restocker" name="restocker">
+            <option value="">-- Sélectionnez un prénom --</option>
+            <option value="John">Barnett John</option>
+            <option value="Sophie">Foltzer Sophie</option>
+            <option value="Andres">Hernández Andres</option>
+            <option value="Ivar">Muchadov Ivar</option>
+            <option value="Matt">Youck Matt</option>
+            <option value="Patt">Jefferson Patt</option>
+            <option value="Aaron">Hunt Aaron</option>
+            <option value="Diego">Turner Diego</option>
+        </select>
+    </div>
+        
+
+        
+    <section class="products">
+    <!-- Exemple de produit propre -->
+        <div class="product">
+            <h3>🫐 Myrtille</h3>
+            <input type="number" id="restock-Myrtille" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>☕ Café</h3>
+            <input type="number" id="restock-Café" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🍊 Orange </h3>
+            <input type="number" id="restock-Orange" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🍈 Citron Vert</h3>
+            <input type="number" id="restock-Citron-Vert" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🍋 Citron Jaune</h3>
+            <input type="number" id="restock-Citron-Jaune" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🫒 Olive</h3>
+            <input type="number" id="restock-Olive" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🥚 Oeuf</h3>
+            <input type="number" id="restock-Oeuf" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🍎 Pomme</h3>
+            <input type="number" id="restock-Pomme" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🌶️ Poivre</h3>
+            <input type="number" id="restock-Poivre" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🌶️ Piment</h3>
+            <input type="number" id="restock-Piment" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🍚 Sucre</h3>
+            <input type="number" id="restock-Sucre" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🫒 Huile olive</h3>
+            <input type="number" id="restock-Huile-olive" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🌻 Huile tournesol</h3>
+            <input type="number" id="restock-Huile-tournesol" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🧃 Jus de fruit</h3>
+            <input type="number" id="restock-Jus-fruit" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🥗 Coupe de fruit</h3>
+            <input type="number" id="restock-Coupe-fruit" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🥕 Carotte</h3>
+            <input type="number" id="restock-Carotte" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🍉 Pastèque</h3>
+            <input type="number" id="restock-Pasteque" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🎃 Citrouille</h3>
+            <input type="number" id="restock-Citrouille" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🍫 Cacao</h3>
+            <input type="number" id="restock-Cacao" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+
+        <div class="product">
+            <h3>🍮 Caramel</h3>
+            <input type="number" id="restock-Caramel" class="restock-input" placeholder="Quantité à ajouter" min="1">
+        </div>
+    </section>
+
+        <div id="notification" class="notification"></div>
+        <!-- Bouton général pour réapprovisionnement -->
+        <button class="cta-button" onclick="handleSubmit()">Réapprovisionner</button>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2025 Ferme Biogood. Tous droits réservés.</p>
+        </footer>
+    </div>
+    <script>
+        async function handleSubmit() {
+            const restocker = document.getElementById('restocker').value;
+            const notification = document.getElementById('notification');
+            notification.style.display = "none";  // Cacher la notification par défaut
+
+            if (!restocker) {
+                notification.textContent = "Veuillez sélectionner un prénom avant de valider.";
+                notification.style.display = "block"; // Afficher la notification d'erreur
+                return;
+            }
+
+            const inputs = document.querySelectorAll('.restock-input');
+            const selectedProducts = [];
+
+            inputs.forEach(input => {
+                const qty = parseInt(input.value);
+                if (qty > 0) {
+                    const label = input.previousElementSibling.textContent;
+                    selectedProducts.push(`${label} ➜ ${qty}`);
+                }
+            });
+
+            if (selectedProducts.length === 0) {
+                notification.textContent = "Veuillez saisir au moins une quantité.";
+                notification.style.display = "block"; // Afficher la notification d'erreur
+                return;
+            }
+
+            // Envoi des données et autres logiques...
+            notification.textContent = "Les produits ont bien été envoyés !";
+            notification.style.display = "block"; // Afficher une notification de succès
+        }
+    </script>
+    
+    
+</body>
+</html>
+
+
