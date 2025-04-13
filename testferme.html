@@ -352,18 +352,18 @@
     <script>
         async function handleSubmit() {
             const restocker = document.getElementById('restocker').value;
-            const notification = document.getElementById('notification');
-            notification.style.display = "none";  // Cacher la notification par défaut
-
+            const notification = document.getElementById('notification'); // Récupère l'élément de notification
+            notification.style.display = "none"; // Masque la notification avant l'envoi
+            
             if (!restocker) {
-                notification.textContent = "Veuillez sélectionner un prénom avant de valider.";
-                notification.style.display = "block"; // Afficher la notification d'erreur
+                notification.textContent = "Veuillez sélectionner un prénom avant de valider."; // Modifie le texte de la notification
+                notification.style.display = "block"; // Affiche la notification
                 return;
             }
-
+        
             const inputs = document.querySelectorAll('.restock-input');
             const selectedProducts = [];
-
+        
             inputs.forEach(input => {
                 const qty = parseInt(input.value);
                 if (qty > 0) {
@@ -371,17 +371,40 @@
                     selectedProducts.push(`${label} ➜ ${qty}`);
                 }
             });
-
+        
             if (selectedProducts.length === 0) {
-                notification.textContent = "Veuillez saisir au moins une quantité.";
-                notification.style.display = "block"; // Afficher la notification d'erreur
+                notification.textContent = "Veuillez saisir au moins une quantité."; // Modifie le texte de la notification
+                notification.style.display = "block"; // Affiche la notification
                 return;
             }
-
-            // Envoi des données et autres logiques...
-            notification.textContent = "Les produits ont bien été envoyés !";
-            notification.style.display = "block"; // Afficher une notification de succès
+        
+            const now = new Date();
+            const heure = now.toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
+        
+            const message = {
+                restocker: restocker,
+                products: selectedProducts
+            };
+        
+            const discordWebhook = "https://discord.com/api/webhooks/1360252161556090890/KlU-DqsySDCWSUntFRMVztoIn7RxIrf3rVW8SI-ypEsb-16EyS7P8RVr_tjxcYWKbtgo"; // ← mets ton vrai lien
+        
+            try {
+                // Envoi au Discord
+                await fetch(discordWebhook, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ content: `📦 Réapprovisionnement par ${restocker}\n🕒 ${heure}\n\n${selectedProducts.join('\n')}` })
+                });
+        
+                alert("Les produits ont bien été envoyés !");
+                document.querySelectorAll('.restock-input').forEach(input => input.value = "");
+                document.getElementById('restocker').value = "";
+            } catch (err) {
+                alert("Erreur lors de l'envoi.");
+                console.error(err);
+            }
         }
+
     </script>
     
     
