@@ -211,14 +211,36 @@
             display: block; /* Par défaut, tu peux choisir de la masquer */
         }
 
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, transform 0.2s;
+            z-index: 999;
+        }
+
+        .back-arrow:hover {
+            background: var(--button-hover-color);
+            transform: scale(1.05);
+        }
 
     </style>
 </head>
 <body>
+    
     <div class="main-container fade-in">
         <header>
             <img src="https://files.catbox.moe/0kvf7v.png" alt="Logo Ferme Biogood">
             <h1>Ferme Biogood - Réapprovisionnement</h1>
+            <a href="indexcomm.html" class="back-arrow" title="Retour">⬅️ Retour</a>
         </header>
     <div class="restocker-name">
         <label for="restocker">Réapprovisionneur :</label>
