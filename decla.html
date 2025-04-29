@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ferme Biogood - Déclaration de Remboursement</title>
+  <style>
+    :root {
+      --primary-color: #2f2f2f;
+      --secondary-color: #bfa15f;
+      --background-color: #f5f5f5;
+      --highlight-color: #8a6e4f;
+      --button-hover-color: #7f5e35;
+      --text-color: #333;
+      --beige-color: #f5e1b7;
+      --brown-color: #7d5a3c;
+      --gradient-secondary: linear-gradient(135deg, #7d5a3c, #8a6e4f);
+      --button-gradient: linear-gradient(135deg, #7d5a3c, #bfa15f);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      background-image: url('https://files.catbox.moe/i12z80.png');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text-color);
+    }
+
+    .container {
+      background: rgba(245, 225, 183, 0.75);
+      padding: 40px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      color: var(--brown-color);
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    select, textarea, input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-sizing: border-box;
+      margin-top: 8px;
+    }
+
+    .cta-button {
+      margin-top: 30px;
+      background: var(--button-gradient);
+      color: white;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: bold;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background: var(--button-hover-color);
+      transform: scale(1.05);
+    }
+
+    .notification {
+      color: green;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    /* Style pour le bouton retour */
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1rem;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      background: var(--gradient-secondary);
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .back-arrow:hover {
+      background: var(--button-hover-color);
+      transform: scale(1.05);
+    }
+
+    /* Style pour l'en-tête */
+    header {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    header img {
+      width: 150px;
+    }
+
+    header h1 {
+      color: #7d5a3c;
+      font-size: 2rem;
+      margin-top: 10px;
+      text-align: center;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+        <img src="https://files.catbox.moe/0kvf7v.png" alt="Logo Ferme Biogood" />
+        <a href="indexcomm.html" class="back-arrow">⬅️ Retour</a>
+    </header>
+
+    <h1>Déclaration de Remboursement</h1>
+
+    <label for="restocker">Prénom :</label>
+    <select id="restocker" name="restocker">
+      <option value="">-- Sélectionnez un prénom --</option>
+      <option value="John">Barnett John</option>
+      <option value="Sophie">Foltzer Sophie</option>
+      <option value="Andres">Hernández Andres</option>
+      <option value="Ivar">Muchadov Ivar</option>
+      <option value="Patt">Jefferson Patt</option>
+      <option value="Aaron">Hunt Aaron</option>
+      <option value="Diego">Turner Diego</option>
+      <option value="Rémy">Silva Rémy</option>
+    </select>
+
+    <label for="motif">Motif :</label>
+    <select id="motif">
+      <option value="">-- Choisissez un motif --</option>
+      <option value="Essence">Essence</option>
+      <option value="Patron">Patron (carte)</option>
+      <option value="Autre">Autre</option>
+    </select>
+
+    <label for="montant">Montant (en dollars) :</label>
+    <input type="number" id="montant" name="montant" placeholder="Entrez le montant en dollars" step="0.01" min="0" />
+
+    <label for="description">Description (optionnelle) :</label>
+    <textarea id="description" placeholder="Ajoutez des détails sur la dépense..."></textarea>
+
+    <button class="cta-button" onclick="envoyerRemboursement()">Envoyer</button>
+    <div class="notification" id="notification"></div>
+  </div>
+
+  <script>
+    async function envoyerRemboursement() {
+      const prenom = document.getElementById('restocker').value;
+      const motif = document.getElementById('motif').value;
+      const montant = document.getElementById('montant').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const notification = document.getElementById('notification');
+
+      notification.textContent = "";
+
+      if (!prenom || !motif || !montant) {
+        notification.textContent = "Veuillez sélectionner un prénom, un motif et entrer un montant.";
+        notification.style.color = "red";
+        return;
+      }
+
+      const now = new Date();
+      const heure = now.toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
+
+      const message = `💰 Remboursement déclaré par ${prenom}\n🕒 ${heure}\n📌 Motif : ${motif}\n💵 Montant : $${montant}\n${description ? `📝 Description : ${description}` : ""}`;
+
+      const discordWebhook = "https://discord.com/api/webhooks/1366788297594110084/nqeWP-ygsh8vj27grAd6xARzRx5HZH6A9V97fuBHLY-gw8czGSDnI4I2n4nLdQTaZF2t";
+
+      try {
+        await fetch(discordWebhook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ content: message })
+        });
+        notification.textContent = "Déclaration envoyée avec succès !";
+        notification.style.color = "green";
+      } catch (error) {
+        notification.textContent = "Erreur lors de l'envoi.";
+        notification.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
