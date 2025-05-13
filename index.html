@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -53,15 +54,19 @@
       justify-content: center;
       align-items: center;
       padding-top: 120px;
+      flex-direction: column;
+      gap: 40px;
     }
 
     .container {
       background-color: rgba(66, 43, 13, 0.75);
-      padding: 40px;
+      padding: 5px;
       border-radius: 20px;
       box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
       text-align: center;
       animation: fadeIn 1s ease-in-out;
+      max-width: 600px; /* ✅ largeur maximale augmentée */
+      width: 100%;
     }
 
     .login-btn {
@@ -87,6 +92,46 @@
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    .product-section {
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+
+    .product-title {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 1px 1px 4px #000;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      background-color: rgba(66, 43, 13, 0.75);
+      color: #fff;
+    }
+
+    td {
+      background-color: rgba(181, 135, 99, 0.4); /* ✅ nouvelle couleur de fond */
+      color: #fff;
+    }
+
+    tr:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
   </style>
 </head>
 <body>
@@ -103,6 +148,56 @@
       <a href="./decla.html" class="login-btn">📝 Déclaration</a>
       <a href="./testferme.html" class="login-btn">📦 Stock</a>
     </div>
+
+    <div class="product-section">
+      <div class="product-title">📦 Liste des produits en stock</div>
+      <table id="productTable">
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Quantité</th>
+          </tr>
+        </thead>
+        <tbody id="produitList"></tbody>
+      </table>
+    </div>
   </div>
+
+  <script>
+    const sheetUrl = "https://script.google.com/macros/s/AKfycby7xSivHSxOOhqpAK7WoiOnYqEB3aVgw-TGWbwJGBJXjJ47o-l9TwjNIcjHBtsouNt2vw/exec?feuille=stock";
+  
+    fetch(sheetUrl)
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById("produitList");
+        data.forEach(item => {
+          // Vérification si item.produit est une chaîne de caractères valide
+          if (typeof item.produit === "string" && item.produit.trim().length > 0) {
+            // Séparation emoji + texte (s'il y a un espace entre les deux)
+            const parts = item.produit.trim().split(" ");
+            
+            // Vérification si la valeur contient un emoji avant le nom du produit
+            const emoji = parts[0] 
+            const name = parts.slice(1).join(" ");
+  
+            const row = document.createElement("tr");
+  
+            // Ajouter une ligne au tableau avec le produit et la quantité
+            row.innerHTML = `
+              <td>${emoji} ${name}</td>
+              <td>${item.quantite}</td>
+            `;
+            list.appendChild(row);
+          } else {
+            console.warn(`Produit invalide ou format incorrect: ${item.produit}`);
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Erreur lors du chargement :", error);
+      });
+  </script>
+  
+  
 </body>
 </html>
