@@ -190,41 +190,55 @@
   </div>
 
   <script>
-    async function envoyerRemboursement() {
-      const prenom = document.getElementById('restocker').value;
-      const motif = document.getElementById('motif').value;
-      const montant = document.getElementById('montant').value.trim();
-      const description = document.getElementById('description').value.trim();
-      const notification = document.getElementById('notification');
+  async function envoyerRemboursement() {
+    const prenom = document.getElementById('restocker').value;
+    const motif = document.getElementById('motif').value;
+    const montant = parseFloat(document.getElementById('montant').value.trim());
+    const description = document.getElementById('description').value.trim();
+    const notification = document.getElementById('notification');
 
-      notification.textContent = "";
+    notification.style.color = "tomato";
+    notification.textContent = "";
 
-      if (!prenom || !motif || !montant) {
-        notification.textContent = "Veuillez sélectionner un prénom, un motif et entrer un montant.";
-        notification.style.color = "red";
-        return;
-      }
-
-      const now = new Date();
-      const heure = now.toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
-
-      const message = `💰 Remboursement déclaré par ${prenom}\n🕒 ${heure}\n📌 Motif : ${motif}\n💵 Montant : $${montant}\n${description ? `📝 Description : ${description}` : ""}`;
-
-      const discordWebhook = "https://discord.com/api/webhooks/1366788297594110084/nqeWP-ygsh8vj27grAd6xARzRx5HZH6A9V97fuBHLY-gw8czGSDnI4I2n4nLdQTaZF2t";
-
-      try {
-        await fetch(discordWebhook, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: message })
-        });
-        notification.textContent = "Déclaration envoyée avec succès !";
-        notification.style.color = "green";
-      } catch (error) {
-        notification.textContent = "Erreur lors de l'envoi.";
-        notification.style.color = "red";
-      }
+    if (!prenom || !motif || isNaN(montant) || montant <= 0) {
+      notification.textContent = "Veuillez remplir tous les champs obligatoires correctement.";
+      return;
     }
-  </script>
+
+    const heure = new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" });
+
+    const payload = {
+      prenom,
+      motif,
+      montant,
+      description,
+      heure
+    };
+
+    try {
+      const response = await fetch("https://remboursement-chi.vercel.app/api/remboursement", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        notification.style.color = "green";
+        notification.textContent = "✅ Remboursement envoyé avec succès !";
+        // Réinitialise les champs :
+        document.getElementById('restocker').value = "";
+        document.getElementById('motif').value = "";
+        document.getElementById('montant').value = "";
+        document.getElementById('description').value = "";
+      } else {
+        throw new Error("Erreur lors de l’envoi");
+      }
+    } catch (err) {
+      console.error(err);
+      notification.textContent = "❌ Une erreur est survenue lors de l’envoi.";
+    }
+  }
+</script>
+
 </body>
 </html>
