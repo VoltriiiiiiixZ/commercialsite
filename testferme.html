@@ -423,7 +423,7 @@
                 await fetch("https://restock-beta.vercel.app/api/restock", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(message)
                 });
         
                 notification.textContent = "Les produits ont bien été envoyés !";
