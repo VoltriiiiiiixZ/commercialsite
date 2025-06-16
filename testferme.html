@@ -415,11 +415,11 @@
         
             const message = {
                 restocker: restocker,
-                heure: now.toLocaleTimeString('fr-FR'),
+                heure: heure,
                 products: selectedProducts
             };
         
-            const now = new Date();
+            
 
             try {
                 const response = await fetch("http://TON_API_ENDPOINT/api/restock", {
