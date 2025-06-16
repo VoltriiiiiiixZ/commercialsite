@@ -418,14 +418,12 @@
                 products: selectedProducts
             };
         
-            const discordWebhook = "https://discord.com/api/webhooks/1360252161556090890/KlU-DqsySDCWSUntFRMVztoIn7RxIrf3rVW8SI-ypEsb-16EyS7P8RVr_tjxcYWKbtgo"; // ← mets ton vrai lien
-        
             try {
                 // Envoi au Discord
-                await fetch(discordWebhook, {
+                await fetch("https://restock-beta.vercel.app/api/restock", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ content: `📦 Réapprovisionnement par ${restocker}\n🕒 ${heure}\n\n${selectedProducts.join('\n')}` })
+                    body: JSON.stringify(payload)
                 });
         
                 notification.textContent = "Les produits ont bien été envoyés !";
