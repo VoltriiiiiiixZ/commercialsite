@@ -418,11 +418,9 @@
                 heure: heure,
                 products: selectedProducts
             };
-        
-            
 
             try {
-                const response = await fetch("http://TON_API_ENDPOINT/api/restock", {
+                const response = await fetch("https://restock.vercel.app/api//restock", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
