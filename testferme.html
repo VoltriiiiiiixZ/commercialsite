@@ -415,6 +415,7 @@
         
             const message = {
                 restocker: restocker,
+                heure: now.toLocaleTimeString('fr-FR'),
                 products: selectedProducts
             };
         
@@ -426,12 +427,7 @@
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({
-                        restocker: restocker,
-                        produits: selectedProducts,
-                        date: now.toLocaleDateString('fr-FR'),
-                        heure: now.toLocaleTimeString('fr-FR')
-                    })
+                    body: JSON.stringify({message})
                 });
             
                 if (!response.ok) {
