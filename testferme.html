@@ -419,18 +419,32 @@
             };
         
             try {
-                // Envoi au Discord
-                await fetch("https://restock-beta.vercel.app/api/restock", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(message)
+                const response = await fetch('https://ton-api.adresse/api/reapprovisionnement', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        restocker: restocker,
+                        produits: selectedProducts,
+                        heure: heure
+                    })
                 });
-        
-                notification.textContent = "Les produits ont bien été envoyés !";
-                notification.style.display = "block"
-            } catch (err) {
-                notification.textContent = "Erreur lors de l'envoi.";
-                notification.style.display = "block"
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    notification.style.color = "green";
+                    notification.textContent = "Réapprovisionnement envoyé avec succès !";
+                    notification.style.display = "block";
+                    document.querySelectorAll('.restock-input').forEach(input => input.value = '');
+                } else {
+                    throw new Error(result?.error || "Une erreur est survenue lors de l'envoi.");
+                }
+            } catch (error) {
+                notification.textContent = "Erreur : " + error.message;
+                notification.style.color = "red";
+                notification.style.display = "block";
             }
         }
 
